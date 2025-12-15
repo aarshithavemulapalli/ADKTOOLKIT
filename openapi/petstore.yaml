@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Simple Petstore API
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: List all pets
+      responses:
+        "200":
+          description: A list of pets
+  /pets/{petId}:
+    get:
+      operationId: getPet
+      summary: Info for a specific pet
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Expected response
