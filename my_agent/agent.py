@@ -1,14 +1,36 @@
 from google.adk.agents.llm_agent import Agent
+from .openapi_tools import petstore_toolset
 
-# Mock tool implementation
+
 def get_current_time(city: str) -> dict:
-    """Returns the current time in a specified city."""
-    return {"status": "success", "city": city, "time": "10:30 AM"}
+    return {
+        "status": "success",
+        "city": city,
+        "time": "10:30 AM",
+    }
+
+
+def get_weather(city: str) -> dict:
+    return {
+        "status": "success",
+        "city": city,
+        "temperature": "25°C",
+        "condition": "Sunny",
+    }
+
 
 root_agent = Agent(
-    model='gemini-3-pro-preview',
-    name='root_agent',
-    description="Tells the current time in a specified city.",
-    instruction="You are a helpful assistant that tells the current time in cities. Use the 'get_current_time' tool for this purpose.",
-    tools=[get_current_time],
-) 
+    name="root_agent",
+    model="gemini-2.0-flash",
+    description="Agent that answers time, weather, and pet-related questions.",
+    instruction=(
+        "You are a helpful agent.\n"
+        "- Answer time and weather questions directly.\n"
+        "- Use OpenAPI tools for pet-related questions."
+    ),
+    tools=[
+        get_weather,
+        get_current_time,
+        petstore_toolset,  # ✅ Pass the toolset directly
+    ],
+)
